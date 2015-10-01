@@ -1,7 +1,9 @@
 {
   "name": "uiShell",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "gulp-serve": "~1.2.0"
+  },
   "scripts": {
     "test": "gulp test"
   },

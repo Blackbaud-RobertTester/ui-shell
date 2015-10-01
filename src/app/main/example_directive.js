@@ -1,7 +1,7 @@
 export class HelloWorldTitle {
     constructor() {
         this.restrict = 'E';
-        this.template = '<p>Hello World</p>';
+        this.templateUrl = 'app/main/partials/example-directive-template.html';
         this.scope = {
             message: '=message'
         }
