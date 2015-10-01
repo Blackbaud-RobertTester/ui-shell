@@ -1,5 +1,3 @@
-/*global moment*/
-
 import { config } from './index.config';
 import { routerConfig } from './index.route';
 import { runBlock } from './index.run';
@@ -8,7 +6,6 @@ import { mainModule } from './main/main.module'
 /*eslint-enable no-unused-vars*/
 
 angular.module('uiShell', ['restangular', 'ui.router', 'uiShell.main'])
-    .constant('moment', moment)
     .config(config)
     .config(routerConfig)
     .run(runBlock);
