@@ -2,17 +2,21 @@
   "name": "uiShell",
   "version": "0.0.0",
   "dependencies": {
-    "jquery": "~2.1.4",
     "restangular": "~1.5.1",
-    "angular-ui-router": "~0.2.15",
-    "angular": "~1.4.2"
+    "bb-sky": "git@github.com:blackbaud/sky.git#~1.1.11"
+  },
+  "overrides": {
+    "bb-sky": {
+      "main": ["dist/css/sky.css", "dist/js/sky.min.js"]
+    }
   },
   "devDependencies": {
     "angular-mocks": "~1.4.2"
   },
   "resolutions": {
     "jquery": "~2.1.4",
-    "angular": "~1.4.2"
+    "angular": "~1.4.2",
+    "moment": "~2.9.0"
   }
 }
 
