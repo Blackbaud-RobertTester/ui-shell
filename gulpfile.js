@@ -24,6 +24,13 @@ wrench.readdirSyncRecursive('./src/app/domain1/gulp').filter(function (file) {
     require('./src/app/domain1/gulp/' + file);
 });
 
+//TODO: Need to come up with a better way of grabbing all the files inside of the module directories.
+wrench.readdirSyncRecursive('./src/app/ui-common/gulp').filter(function (file) {
+    return (/\.(js|coffee)$/i).test(file);
+}).map(function (file) {
+    require('./src/app/ui-common/gulp/' + file);
+});
+
 /**
  *  Default task clean temporaries directories and launch the
  *  main optimization build task

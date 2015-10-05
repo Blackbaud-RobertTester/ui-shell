@@ -3,15 +3,17 @@
 var path = require('path');
 var gulp = require('gulp');
 var conf = require('./conf');
+var taskListing = require('gulp-task-listing');
+var debug = require('gulp-debug');
 
 var $ = require('gulp-load-plugins')({
     pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license', 'del']
 });
 
-gulp.task('partials', function () {
+gulp.task('partials', ['partials:domain1'], function () {
     return gulp.src([
-        path.join(conf.paths.src, '/app/**/*.html'),
-        path.join(conf.paths.tmp, '/serve/app/**/*.html')
+        path.join(conf.paths.src, '/app/**/*.html')//,
+        //path.join(conf.paths.tmp, '/serve/app/**/*.html')
     ])
         .pipe($.minifyHtml({
             empty: true,
@@ -26,9 +28,9 @@ gulp.task('partials', function () {
 });
 
 gulp.task('html', ['inject', 'partials'], function () {
-    var partialsInjectFile = gulp.src(path.join(conf.paths.tmp, '/partials/templateCacheHtml.js'), {read: false});
+    var partialSources = gulp.src(path.join(conf.paths.tmp, '/partials/*.js'), {read: false});
     var partialsInjectOptions = {
-        starttag: '<!-- inject:partials -->',
+        starttag: '<!-- inject:partials:js -->',
         ignorePath: path.join(conf.paths.tmp, '/partials'),
         addRootSlash: false
     };
@@ -39,9 +41,8 @@ gulp.task('html', ['inject', 'partials'], function () {
     var assets;
 
     return gulp.src(path.join(conf.paths.tmp, '/serve/*.html'))
-        .pipe($.inject(partialsInjectFile, partialsInjectOptions))
+        .pipe($.inject(partialSources, partialsInjectOptions))
         .pipe(assets = $.useref.assets())
-        .pipe($.rev())
         .pipe(jsFilter)
         .pipe($.sourcemaps.init())
         .pipe($.uglify({preserveComments: $.uglifySaveLicense})).on('error', conf.errorHandler('Uglify'))
@@ -54,7 +55,6 @@ gulp.task('html', ['inject', 'partials'], function () {
         .pipe(cssFilter.restore)
         .pipe(assets.restore())
         .pipe($.useref())
-        .pipe($.revReplace())
         .pipe(htmlFilter)
         .pipe($.minifyHtml({
             empty: true,
@@ -94,3 +94,12 @@ gulp.task('clean', function () {
 });
 
 gulp.task('build', ['html', 'fonts', 'other']);
+
+function getScriptsTasks(filterKey) {
+    var tasks = Object.keys(gulp.tasks).sort();
+    tasks = tasks.filter(function(element) {
+        return element.indexOf(filterKey) > -1;
+    });
+
+    return tasks;
+}
