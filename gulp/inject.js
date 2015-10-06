@@ -13,7 +13,7 @@ function getInjectOptions(name) {
     var options = {
         ignorePath: [conf.paths.src, path.join(conf.paths.tmp, '/serve')],
         addRootSlash: false
-    }
+    };
 
     if(name)
         options.name = name;

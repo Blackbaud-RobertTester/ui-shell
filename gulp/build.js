@@ -10,6 +10,16 @@ var $ = require('gulp-load-plugins')({
     pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license', 'del']
 });
 
+function getScriptsTasks(filterKey) {
+
+    var tasks = Object.keys(gulp.tasks).sort();
+    tasks = tasks.filter(function(element) {
+        return element.indexOf(filterKey) > -1;
+    });
+
+    return tasks;
+}
+
 gulp.task('partials', ['partials:domain1'], function () {
     return gulp.src([
         path.join(conf.paths.src, '/app/**/*.html')//,
@@ -94,12 +104,3 @@ gulp.task('clean', function () {
 });
 
 gulp.task('build', ['html', 'fonts', 'other']);
-
-function getScriptsTasks(filterKey) {
-    var tasks = Object.keys(gulp.tasks).sort();
-    tasks = tasks.filter(function(element) {
-        return element.indexOf(filterKey) > -1;
-    });
-
-    return tasks;
-}
