@@ -5,6 +5,7 @@ var gulp = require('gulp');
 var conf = require('./conf');
 var taskListing = require('gulp-task-listing');
 var debug = require('gulp-debug');
+var runSequence = require('run-sequence');
 
 var $ = require('gulp-load-plugins')({
     pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license', 'del']
@@ -20,7 +21,7 @@ function getScriptsTasks(filterKey) {
     return tasks;
 }
 
-gulp.task('partials', ['partials:domain1'], function () {
+gulp.task('partials', function () {
     return gulp.src([
         path.join(conf.paths.src, '/app/**/*.html')//,
         //path.join(conf.paths.tmp, '/serve/app/**/*.html')
@@ -48,6 +49,7 @@ gulp.task('html', ['inject', 'partials'], function () {
     var htmlFilter = $.filter('*.html', {restore: true});
     var jsFilter = $.filter('**/*.js', {restore: true});
     var cssFilter = $.filter('**/*.css', {restore: true});
+
     var assets;
 
     return gulp.src(path.join(conf.paths.tmp, '/serve/*.html'))
@@ -93,14 +95,18 @@ gulp.task('other', function () {
 
     return gulp.src([
         path.join(conf.paths.src, '/**/*'),
-        path.join('!' + conf.paths.src, '/**/*.{html,css,js,scss}')
+        path.join('!' + conf.paths.src, '/**/*.{html,css,js,scss,md}')
     ])
         .pipe(fileFilter)
         .pipe(gulp.dest(path.join(conf.paths.dist, '/')));
 });
 
-gulp.task('clean', function () {
+gulp.task('clean', ['clean:common', 'clean:domain1'], function () {
     return $.del([path.join(conf.paths.dist, '/'), path.join(conf.paths.tmp, '/')]);
 });
 
-gulp.task('build', ['html', 'fonts', 'other']);
+gulp.task('build:shell', ['html', 'fonts', 'other']);
+
+gulp.task('build', function(cb) {
+    runSequence('build:common', 'build:domain1', 'build:shell', cb);
+});

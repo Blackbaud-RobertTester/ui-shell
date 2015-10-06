@@ -3,6 +3,8 @@
 var path = require('path');
 var gulp = require('gulp');
 var conf = require('./conf');
+var debug = require('gulp-debug');
+var runSequence = require('run-sequence');
 
 var $ = require('gulp-load-plugins')();
 
@@ -15,13 +17,34 @@ function getInjectOptions(name) {
         addRootSlash: false
     };
 
-    if(name)
+    if (name)
         options.name = name;
 
     return options;
 }
 
-gulp.task('inject', ['scripts', 'styles'], function () {
+//TODO: There needs to be a more generic way of doing this
+gulp.task('copyFiles', function () {
+
+    var appFilesToCopy = [
+        path.join(conf.paths.src, '/app/domain1/.tmp/serve/app/domain1.js'),
+        path.join(conf.paths.src, '/app/ui-common/.tmp/serve/app/common.js')
+    ];
+
+    var templateFilesToCopy = [
+        path.join(conf.paths.src, '/app/domain1/.tmp/partials/templateCacheHtml-domain1.js'),
+        path.join(conf.paths.src, '/app/ui-common/.tmp/partials/templateCacheHtml-common.js')
+    ];
+
+    gulp.src(appFilesToCopy)
+        .pipe(gulp.dest(path.join(conf.paths.tmp, '/serve/app')));
+
+    gulp.src(templateFilesToCopy)
+        .pipe(gulp.dest(path.join(conf.paths.tmp, '/partials')));
+});
+
+gulp.task('inject', ['prepForInjection'], function () {
+
     var injectStyles = gulp.src([
         path.join(conf.paths.tmp, '/serve/app/**/*.css'),
         path.join('!' + conf.paths.tmp, '/serve/app/vendor.css')
@@ -39,4 +62,8 @@ gulp.task('inject', ['scripts', 'styles'], function () {
         .pipe($.inject(injectScripts, getInjectOptions()))
         .pipe(wiredep(_.extend({}, conf.wiredep))) //looks at the bower dependencies
         .pipe(gulp.dest(path.join(conf.paths.tmp, '/serve')));
+});
+
+gulp.task('prepForInjection', function(cb) {
+    runSequence('copyFiles', 'scripts', 'styles', cb);
 });
