@@ -24,6 +24,7 @@ function getInjectOptions(name) {
 }
 
 //TODO: There needs to be a more generic way of doing this
+/*Copy all deployed files from the different modules into place*/
 gulp.task('copyFiles', function () {
 
     var appFilesToCopy = [
