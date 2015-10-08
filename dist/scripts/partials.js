@@ -1,2 +1,0 @@
-angular.module("uiShell.main").run(["$templateCache",function(l){l.put("app/example-directive-template.html","<p>Hello World</p>")}]),angular.module("uiShell").run(["$templateCache",function(l){l.put("app/domain1/main.html",'<div>Blah2<br><hello-world-title message="main.message"></hello-world-title>{{main.sizeOfArray}}</div><hello-world-common></hello-world-common><button ng-click="main.logMessage(\'blah\')">Click Me</button>'),l.put("app/domain1/partials/example-directive-template.html","<p>Hello World</p>")}]);
-//# sourceMappingURL=../maps/scripts/partials.js.map

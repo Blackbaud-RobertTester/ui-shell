@@ -35,10 +35,6 @@ gulp.task('serve', ['watch'], function () {
     browserSyncInit([path.join(conf.paths.tmp, '/serve'), conf.paths.src]);
 });
 
-gulp.task('serve:nobuild', function () {
-    browserSyncInit([path.join(conf.paths.tmp, '/serve'), conf.paths.src]);
-});
-
 //Startup the deployed system.
 gulp.task('serve:dist', ['build'], function () {
     browserSyncInit(conf.paths.dist);
