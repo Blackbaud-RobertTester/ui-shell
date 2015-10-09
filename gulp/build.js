@@ -9,29 +9,7 @@ var $ = require('gulp-load-plugins')({
     pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license', 'del']
 });
 
-gulp.task('partials', function () {
-    return gulp.src([
-        path.join(conf.paths.src, '/app/**/*.html')
-    ])
-        .pipe($.minifyHtml({
-            empty: true,
-            spare: true,
-            quotes: true
-        }))
-        .pipe($.angularTemplatecache('templateCacheHtml.js', {
-            module: 'uiShell',
-            root: 'app'
-        }))
-        .pipe(gulp.dest(conf.paths.tmp + '/partials/'));
-});
-
 gulp.task('html', ['inject', 'partials'], function () {
-    var partialSources = gulp.src(path.join(conf.paths.tmp, '/partials/*.js'), {read: false});
-    var partialsInjectOptions = {
-        starttag: '<!-- inject:partials:js -->',
-        ignorePath: path.join(conf.paths.tmp, '/partials'),
-        addRootSlash: false
-    };
 
     var htmlFilter = $.filter('*.html', {restore: true});
     var jsFilter = $.filter('**/*.js', {restore: true});
@@ -40,7 +18,6 @@ gulp.task('html', ['inject', 'partials'], function () {
     var assets;
 
     return gulp.src(path.join(conf.paths.tmp, '/serve/*.html'))
-        .pipe($.inject(partialSources, partialsInjectOptions))
         .pipe(assets = $.useref.assets())
         .pipe(jsFilter)
         .pipe($.sourcemaps.init())
@@ -70,7 +47,9 @@ gulp.task('html', ['inject', 'partials'], function () {
 // Custom fonts are handled by the "other" task
 gulp.task('fonts', function () {
     return gulp.src($.mainBowerFiles())
+        .pipe(debug())
         .pipe($.filter('**/*.{eot,svg,ttf,woff,woff2}'))
+        .pipe(debug())
         .pipe($.flatten())
         .pipe(gulp.dest(path.join(conf.paths.dist, '/fonts/')));
 });

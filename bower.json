@@ -7,7 +7,11 @@
   },
   "overrides": {
     "bb-sky": {
-      "main": ["dist/css/sky.css", "dist/js/sky.min.js"]
+      "main": [
+        "dist/css/sky.css",
+        "dist/js/sky.min.js",
+        "dist/css/fonts/*"
+      ]
     }
   },
   "devDependencies": {
