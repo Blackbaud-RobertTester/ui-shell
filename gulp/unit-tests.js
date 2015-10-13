@@ -15,32 +15,41 @@ var pathSrcJs = [
 ];
 
 function runTests (singleRun, done) {
-    var reporters = ['progress'];
-    var preprocessors = {};
+    //var reporters = ['progress'];
+    //var preprocessors = {};
+    //
+    //pathSrcHtml.forEach(function(path) {
+    //    preprocessors[path] = ['ng-html2js'];
+    //});
+    //
+    //if (singleRun) {
+    //    pathSrcJs.forEach(function(path) {
+    //        preprocessors[path] = ['coverage'];
+    //    });
+    //    reporters.push('coverage')
+    //}
+    //
+    //var localConfig = {
+    //    configFile: path.join(__dirname, '/../karma.conf.js'),
+    //    singleRun: singleRun,
+    //    autoWatch: !singleRun,
+    //    reporters: reporters,
+    //    preprocessors: preprocessors
+    //};
+    //
+    //var server = new karma.Server(localConfig, function(failCount) {
+    //    done(failCount ? new Error("Failed " + failCount + " tests.") : null);
+    //})
+    //server.start();
 
-    pathSrcHtml.forEach(function(path) {
-        preprocessors[path] = ['ng-html2js'];
-    });
+    var gulp = require('gulp');
+    var Server = require('karma').Server;
 
-    if (singleRun) {
-        pathSrcJs.forEach(function(path) {
-            preprocessors[path] = ['coverage'];
-        });
-        reporters.push('coverage')
-    }
+    new Server({
+        configFile: __dirname + './../karma.conf.js',
+        singleRun: true
+    }, done).start();
 
-    var localConfig = {
-        configFile: path.join(__dirname, '/../karma.conf.js'),
-        singleRun: singleRun,
-        autoWatch: !singleRun,
-        reporters: reporters,
-        preprocessors: preprocessors
-    };
-
-    var server = new karma.Server(localConfig, function(failCount) {
-        done(failCount ? new Error("Failed " + failCount + " tests.") : null);
-    })
-    server.start();
 }
 
 gulp.task('test', ['scripts:test'], function(done) {

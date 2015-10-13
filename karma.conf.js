@@ -1,14 +1,9 @@
 'use strict';
 
-var path = require('path');
 var conf = require('./gulp/conf');
-
 var _ = require('lodash');
 var wiredep = require('wiredep');
-
-var pathSrcHtml = [
-    path.join(conf.paths.src, '/**/*.html')
-];
+var webpackConfig = require('./webpack.config.js');
 
 function listFiles() {
     var wiredepOptions = _.extend({}, conf.wiredep, {
@@ -16,56 +11,40 @@ function listFiles() {
         devDependencies: true
     });
 
-    return wiredep(wiredepOptions).js
-        .concat([
-            path.join(conf.paths.tmp, '/serve/app/index.module.js')
-        ])
-        .concat(pathSrcHtml);
+    var dependencies = wiredep(wiredepOptions).js;
+    dependencies.push({pattern: 'test-context.js'});
+
+    return dependencies;
 }
 
 module.exports = function(config) {
 
     var configuration = {
         files: listFiles(),
-
         singleRun: true,
-
         autoWatch: false,
-
-        ngHtml2JsPreprocessor: {
-            stripPrefix: conf.paths.src + '/',
-            moduleName: 'angularGulpSeed'
-        },
-
         logLevel: 'WARN',
-
         frameworks: ['jasmine'],
-
         browsers : ['PhantomJS'],
-
         plugins : [
             'karma-phantomjs-launcher',
             'karma-coverage',
             'karma-jasmine',
-            'karma-ng-html2js-preprocessor'
+            'karma-webpack'
         ],
-
-        coverageReporter: {
-            type : 'html',
-            dir : 'coverage/'
+        preprocessors: {
+            'test-context.js': ['webpack']
         },
-
-        reporters: ['progress']
+        webpack: webpackConfig,
+        reporters: ['progress', 'coverage'],
+        coverageReporter: {
+            dir : 'coverage/',
+            reporters: [
+                { type: 'text-summary' },
+                { type: 'html' }
+            ]
+        }
     };
-
-    // This is the default preprocessors configuration for a usage with Karma cli
-    // The coverage preprocessor in added in gulp/unit-test.js only for single tests
-    // It was not possible to do it there because karma doesn't let us now if we are
-    // running a single test or not
-    configuration.preprocessors = {};
-    pathSrcHtml.forEach(function(path) {
-        configuration.preprocessors[path] = ['ng-html2js'];
-    });
 
     config.set(configuration);
 };
