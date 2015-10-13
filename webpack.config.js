@@ -1,18 +1,20 @@
 var webpack = require('webpack');
 
 module.exports = {
+    node: {
+      fs: 'emtpy'
+    },
     module: {
-        disableLogging: true,
         loaders: [{
             test: /\.js$/,
             exclude: /(bower_components|node_modules)/,
-            loaders: ['babel']
+            loaders: ['babel?stage=0']
         }],
         preLoaders: [
             {
                 test: /\.js$/,
                 exclude: /(src|bower_components|node_modules)/,
-                loaders: ['babel']
+                loaders: ['isparta']
             },
             {
                 test: /\.js$/,
@@ -32,11 +34,5 @@ module.exports = {
             '.js'
         ]
     },
-    devtool: 'eval-source-map',
-    plugins: [
-        new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify('development')
-        })
-    ]
+    devtool: 'inline-source-map'
 };

@@ -25,22 +25,26 @@ module.exports = function(config) {
         autoWatch: false,
         logLevel: 'WARN',
         frameworks: ['jasmine'],
-        browsers : ['PhantomJS'],
+        browsers : ['Chrome'],
         plugins : [
             'karma-phantomjs-launcher',
             'karma-coverage',
             'karma-jasmine',
-            'karma-webpack'
+            'karma-chrome-launcher',
+            'karma-webpack',
+            'karma-sourcemap-loader'
         ],
         preprocessors: {
             'test-context.js': ['webpack']
         },
         webpack: webpackConfig,
+        webpackMiddleware: {
+            noInfo: true
+        },
         reporters: ['progress', 'coverage'],
         coverageReporter: {
             dir : 'coverage/',
             reporters: [
-                { type: 'text-summary' },
                 { type: 'html' }
             ]
         }
