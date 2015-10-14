@@ -12,7 +12,8 @@ function listFiles() {
     });
 
     var dependencies = wiredep(wiredepOptions).js;
-    dependencies.push({pattern: 'test-context.js'});
+
+    dependencies.push('test-context.js');
 
     return dependencies;
 }
@@ -21,18 +22,14 @@ module.exports = function(config) {
 
     var configuration = {
         files: listFiles(),
-        singleRun: true,
-        autoWatch: false,
         logLevel: 'WARN',
         frameworks: ['jasmine'],
-        browsers : ['Chrome'],
+        browsers : ['PhantomJS'],
         plugins : [
             'karma-phantomjs-launcher',
             'karma-coverage',
             'karma-jasmine',
-            'karma-chrome-launcher',
-            'karma-webpack',
-            'karma-sourcemap-loader'
+            'karma-webpack'
         ],
         preprocessors: {
             'test-context.js': ['webpack']
