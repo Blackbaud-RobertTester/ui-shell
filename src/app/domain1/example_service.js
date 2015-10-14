@@ -1,12 +1,20 @@
-export class ExampleService {
-    constructor($log) {
-        'ngInject';
-        this.logger = $log;
+(function() {
+    'use strict';
+
+    angular.module('uiShell.main')
+        .factory('ExampleService', ExampleService);
+
+    function ExampleService($log) {
+        var service = {
+            logMessage: logMessage
+        }
+
+        return service;
+
+        function logMessage(message) {
+            $log.log(message);
+        }
     }
 
-    logMessage(message) {
-        this.logger.log(message);
-    }
-}
-
-ExampleService.$inject = ['$log'];
+    ExampleService.$inject = ['$log'];
+})();

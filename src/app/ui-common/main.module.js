@@ -1,5 +1,5 @@
-import { HelloWorldCommon } from './common_directive.js';
+(function() {
+    'use strict';
 
-angular.module('uiShell.common', ['restangular', 'ui.router'])
-    .directive('helloWorldCommon', () => new HelloWorldCommon())
-
+    angular.module('uiShell.common', ['restangular', 'ui.router']);
+})();

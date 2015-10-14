@@ -1,20 +1,19 @@
-export class MainController {
+(function() {
+   'use strict';
 
-    constructor(ExampleService) {
-        'ngInject';
-        this.message = 'Hello World!!';
+    angular
+        .module('uiShell.main')
+        .controller('MainController', MainController);
 
-        let array = new Array();
-        for (var i = 0; i < 10; i++)
-            array.push(i);
+    function MainController(ExampleService) {
+        var vm = this;
 
-        this.sizeOfArray = array.length;
-        this.exampleService = ExampleService;
+        vm.message = 'Hello World!!';
+        vm.logMessage = function(message) {
+            ExampleService.logMessage(message);
+        }
     }
 
-    logMessage(message) {
-        this.exampleService.logMessage(message);
-    }
-}
+    MainController.$inject = ['ExampleService'];
+})();
 
-MainController.$inject = ['ExampleService'];
