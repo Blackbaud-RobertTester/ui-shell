@@ -7,7 +7,7 @@
     function ExampleService($log) {
         var service = {
             logMessage: logMessage
-        }
+        };
 
         return service;
 
