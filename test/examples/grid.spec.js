@@ -49,4 +49,14 @@ describe('Grid Tests', () => {
         grid.visitAPoint(1,1);
         expect(grid.getNumberOfPointsVisited()).toEqual(1);
     });
+
+    it('should return 0 if point does not exist', () => {
+        let grid = new Grid();
+        expect(grid.getNumberOfPointsVisited()).toEqual(0);
+
+        grid.addPointToCoordinate(1,0);
+
+        grid.visitAPoint(1,1);
+        expect(grid.getNumberOfPointsVisited()).toEqual(0);
+    });
 });

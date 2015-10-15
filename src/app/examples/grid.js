@@ -4,7 +4,7 @@ const FULL_GRID = Symbol("Full");
 const HALF_FULL = Symbol("Half");
 const PRETTY_EMPTY = Symbol("Empty");
 
-export class Grid {
+class Grid {
 
     constructor() {
         this.points = [];
@@ -61,3 +61,5 @@ export class Grid {
             this.state = FULL_GRID;
     }
 }
+
+export {Grid};

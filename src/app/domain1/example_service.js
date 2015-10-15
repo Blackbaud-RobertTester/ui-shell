@@ -1,6 +1,5 @@
 export class ExampleService {
     constructor($log) {
-        'ngInject';
         this.logger = $log;
     }
 
