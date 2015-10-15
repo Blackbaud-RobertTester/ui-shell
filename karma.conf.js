@@ -12,7 +12,7 @@ function listFiles() {
     });
 
     var dependencies = wiredep(wiredepOptions).js;
-
+    dependencies.push('node_modules/babel-core/browser-polyfill.min.js');
     dependencies.push('test-context.js');
 
     return dependencies;

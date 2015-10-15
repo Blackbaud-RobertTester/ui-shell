@@ -44,7 +44,7 @@ gulp.task('inject', ['scripts', 'partials', 'styles'], function () {
     var partialSources = gulp.src(path.join(conf.paths.tmp, '/partials/*.js'), {read: false});
     var partialsInjectOptions = {
         name: 'partials',
-        ignorePath: path.join(conf.paths.tmp, '/partials'),
+        ignorePath: path.join(conf.paths.tmp, '/'),
         addRootSlash: false
     };
 

@@ -9,7 +9,16 @@ module.exports = {
             {
                 test: /\.js$/,
                 loader: 'isparta',
-                include: /(src)/
+                include: /(src)/,
+                exclude: function(absPath) {
+                    return (absPath.indexOf('.spec.js') > -1)
+                        || (absPath.indexOf('.module.js') > -1)
+                        || (absPath.indexOf('test-context.js') > -1)
+                        || (absPath.indexOf('.config.js') > -1)
+                        || (absPath.indexOf('.module.js') > -1)
+                        || (absPath.indexOf('.route.js') > -1)
+                        || (absPath.indexOf('.run.js') > -1);
+                }
             }
         ],
         loaders: [

@@ -6,3 +6,14 @@
 </div>
 <hello-world-common></hello-world-common>
 <button ng-click="main.logMessage('blah')">Click Me</button>
+<br />
+Here is a sky component<br />
+<tabset bb-tabset-add="main.addTab()" bb-tabset-open="main.openTab()" bb-tabset-collapsible>
+    <tab bb-tab-collapse-header="t.title" ng-repeat="t in main.tabs" class="bb-tab-close">
+        <tab-heading>
+            {{t.title}}
+            <button type="button" class="bb-tab-close-icon" ng-click="main.closeTab($index, $event)"></button>
+        </tab-heading>
+        {{t.content}}
+    </tab>
+</tabset>
